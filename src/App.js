@@ -21,6 +21,11 @@ function App() {
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(filter.toLowerCase())
   );
+
+  // handle click on a country button
+  const handleCountryButtonClick = (country) => {
+    setFilter(country.name.common);
+  };
   return (
     <div className="App">
       Find Countries: <input type="text" onChange={handleFilter} />
@@ -32,7 +37,14 @@ function App() {
       ) : (
         <ul>
           {filteredCountries.map((country) => (
-            <li key={country.name.common}>{country.name.common}</li>
+            <li key={country.name.common}>
+              {country.name.common}{" "}
+              {filteredCountries.length < 10 && (
+                <button onClick={() => handleCountryButtonClick(country)}>
+                  show
+                </button>
+              )}
+            </li>
           ))}
         </ul>
       )}
