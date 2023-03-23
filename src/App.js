@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Country from "./components/Country";
 function App() {
   const [countries, setCountries] = useState([]);
   const [filter, setFilter] = useState("");
@@ -26,6 +27,8 @@ function App() {
       {/* display the list of countries based on the search term */}
       {filteredCountries.length > 10 ? (
         <div>Too many matches</div>
+      ) : filteredCountries.length === 1 ? (
+        <Country country={filteredCountries[0]} />
       ) : (
         <ul>
           {filteredCountries.map((country) => (
