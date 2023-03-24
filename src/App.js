@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
 import Country from "./components/Country";
+
 function App() {
   const [countries, setCountries] = useState([]);
   const [filter, setFilter] = useState("");
@@ -8,7 +10,7 @@ function App() {
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      const apiKey = "d9ab647565365a43eb143cd6b2457daf";
+      const apiKey = process.env.REACT_APP_APIKEY;
       const url = `https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=${apiKey}`;
 
       try {
