@@ -4,6 +4,22 @@ import Country from "./components/Country";
 function App() {
   const [countries, setCountries] = useState([]);
   const [filter, setFilter] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
+
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      const apiKey = "d9ab647565365a43eb143cd6b2457daf";
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=${apiKey}`;
+
+      try {
+        const response = await axios.get(url);
+        setWeatherData(response.data);
+      } catch (error) {
+        console.error("Error fetching weather data:", error);
+      }
+    };
+    fetchWeatherData();
+  }, []);
 
   //get countries data using useEffect and axios and store into countries state
   useEffect(() => {
@@ -23,9 +39,21 @@ function App() {
   );
 
   // handle click on a country button
-  const handleCountryButtonClick = (country) => {
+  const handleCountryButtonClick = async (country) => {
     setFilter(country.name.common);
+
+    try {
+      const apiKey = "d9ab647565365a43eb143cd6b2457daf";
+      const city = country.capital[0];
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+
+      const response = await axios.get(url);
+      setWeatherData(response.data);
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
   };
+
   return (
     <div className="App">
       Find Countries: <input type="text" onChange={handleFilter} />
@@ -33,7 +61,7 @@ function App() {
       {filteredCountries.length > 10 ? (
         <div>Too many matches</div>
       ) : filteredCountries.length === 1 ? (
-        <Country country={filteredCountries[0]} />
+        <Country country={filteredCountries[0]} weatherData={weatherData} />
       ) : (
         <ul>
           {filteredCountries.map((country) => (
