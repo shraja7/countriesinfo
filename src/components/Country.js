@@ -5,6 +5,8 @@ function Country({ country, weatherData }) {
   const weather = weatherData && weatherData.main;
   const temperature = weather && weather.temp;
   const wind = weatherData && weatherData.wind;
+  const iconCode = weatherData && weatherData.weather[0].icon;
+  const iconUrl = iconCode && `http://openweathermap.org/img/w/${iconCode}.png`;
 
   return (
     <div>
@@ -22,10 +24,10 @@ function Country({ country, weatherData }) {
         src={flags.svg}
         alt={`${name.common} flag`}
       />
-      <h2>Weather in Helsinki</h2>
+      <h2>Weather in {capital[0]}</h2>
       {weatherData && (
         <div>
-          <h3>Weather in {capital[0]}</h3>
+          <img src={iconUrl} alt="weather icon" />
           <p>Temperature: {temperature} &deg;C</p>
           <p>
             Wind: {wind.speed} m/s, {wind.deg} &deg;
